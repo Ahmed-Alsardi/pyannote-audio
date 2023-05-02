@@ -20,6 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+from pathlib import Path
 import warnings
 from functools import cached_property
 from typing import Text, Union
@@ -248,7 +249,7 @@ class SpeechBrainPretrainedSpeakerEmbedding(BaseInference):
 
         self.classifier_ = SpeechBrain_EncoderClassifier.from_hparams(
             source=self.embedding,
-            savedir=f"{CACHE_DIR}/speechbrain",
+            savedir=self.embedding if Path(self.embedding).exists() else f"{CACHE_DIR}/speechbrain",
             run_opts={"device": self.device},
             use_auth_token=self.use_auth_token,
             revision=self.revision,
